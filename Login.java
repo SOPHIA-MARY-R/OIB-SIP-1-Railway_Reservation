@@ -40,17 +40,22 @@ public class Login implements ActionListener{
         loginButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         loginButton.setBackground(new Color(102, 178, 255));
         loginButton.setForeground(Color.WHITE);
+        loginButton.setFocusable(false); //removes dotted outline around button text
 
         resetButton.setBounds(205, 220, 100, 35);
         resetButton.addActionListener(this);
         resetButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         resetButton.setBackground(new Color(255, 102, 178));
         resetButton.setForeground(Color.WHITE);
+        resetButton.setFocusable(false); 
 
-        messageLabel.setBounds(125, 260, 250, 35);
-        messageLabel.setFont(new Font(null, Font.ITALIC, 25));
+        messageLabel.setBounds(100, 270, 200, 35);
+        messageLabel.setFont(new Font(null, Font.BOLD, 14));
+        messageLabel.setOpaque(true);//to add background to JLabel
+        messageLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        messageLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        jFrame.getContentPane().setBackground(new Color(204, 255, 255));
+        jFrame.getContentPane().setBackground(new Color(175, 205, 250));
         jFrame.add(userNameLabel);
         jFrame.add(userName);
         jFrame.add(userPasswordLabel);
@@ -66,8 +71,33 @@ public class Login implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        if(e.getSource() == resetButton){
+            userName.setText("");
+            userPassword.setText("");
+        }
+        if(e.getSource() == loginButton){
+            String user = userName.getText();
+            String pwd = String.valueOf(userPassword.getPassword());//cause it's a password
+
+            if(loginCredentials.containsKey(user)){
+                if(loginCredentials.get(user).equals(pwd)){
+                    messageLabel.setForeground(Color.WHITE);
+                    messageLabel.setBackground(Color.GREEN);
+                    messageLabel.setText("Login SUCCESSFULL!!");
+                    Welcome welcome = new Welcome();
+                }
+                else{
+                    messageLabel.setForeground(Color.WHITE);
+                    messageLabel.setBackground(Color.RED);
+                    messageLabel.setText("WRONG Password!!");
+                }
+            }
+            else{
+                messageLabel.setForeground(Color.WHITE);
+                messageLabel.setBackground(Color.RED);
+                messageLabel.setText("User NOT FOUND!!");
+            }
+        }
     }
 
 }
