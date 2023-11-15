@@ -1,16 +1,14 @@
 import java.util.HashMap;
 
 public class Credentials {
-    HashMap<String, String> loginCredentials = new HashMap<>();
+    private HashMap<String, String> loginCredentials = new HashMap<>();
 
-    Credentials(){
-        loginCredentials.put("Sophia", "pizza");
-        loginCredentials.put("Sebasti", "piano");
-        loginCredentials.put("Suji", "bun");
+    public HashMap<String, String> getLoginCredentials(){
+        return loginCredentials;
     }
 
-    protected HashMap<String, String> getLoginCredentials(){
-        return loginCredentials;
+    public void setLoginCredentials(String user, String pwd){
+        loginCredentials.put(user, pwd);
     }
 
 }
