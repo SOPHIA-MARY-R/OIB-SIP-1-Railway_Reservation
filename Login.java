@@ -16,6 +16,7 @@ public class Login implements ActionListener{
     HashMap<String, String> loginCredentials = new HashMap<>();
 
     JFrame jFrame = new JFrame();
+    JLabel titleLabel = new JLabel("Sign IN!");
     JLabel userNameLabel = new JLabel("Username");
     JTextField userName = new JTextField();
     JLabel userPasswordLabel = new JLabel("Password");
@@ -26,6 +27,10 @@ public class Login implements ActionListener{
 
     Login(HashMap<String, String> loginCredentials){
         this.loginCredentials = loginCredentials;
+
+        titleLabel.setBounds(100, 25, 200, 50);
+        titleLabel.setFont(new Font(null, Font.BOLD, 40));
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
         userNameLabel.setBounds(50, 100, 90, 25);
         userName.setBounds(145, 100, 200, 35);
@@ -50,12 +55,15 @@ public class Login implements ActionListener{
         resetButton.setFocusable(false); 
 
         messageLabel.setBounds(100, 270, 200, 35);
+        messageLabel.setVisible(false);
         messageLabel.setFont(new Font(null, Font.BOLD, 14));
         messageLabel.setOpaque(true);//to add background to JLabel
         messageLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         messageLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        jFrame.getContentPane().setBackground(new Color(175, 205, 250));
+        // jFrame.getContentPane().setBackground(new Color(175, 205, 250));
+        jFrame.getContentPane().setBackground(Color.PINK);
+        jFrame.add(titleLabel);
         jFrame.add(userNameLabel);
         jFrame.add(userName);
         jFrame.add(userPasswordLabel);
@@ -81,18 +89,27 @@ public class Login implements ActionListener{
 
             if(loginCredentials.containsKey(user)){
                 if(loginCredentials.get(user).equals(pwd)){
+                    messageLabel.setVisible(true);
                     messageLabel.setForeground(Color.WHITE);
-                    messageLabel.setBackground(Color.GREEN);
+                    messageLabel.setBackground(new Color(0, 153, 0));
                     messageLabel.setText("Login SUCCESSFULL!!");
-                    Welcome welcome = new Welcome();
+
+                    //removes all components present in the frame
+                    jFrame.getContentPane().removeAll();
+                    
+                    jFrame.repaint();
+                    new Welcome(jFrame); //opens welcome page in the same frame
+                    // jFrame.dispose(); //clears the frame
                 }
                 else{
+                    messageLabel.setVisible(true);
                     messageLabel.setForeground(Color.WHITE);
                     messageLabel.setBackground(Color.RED);
                     messageLabel.setText("WRONG Password!!");
                 }
             }
             else{
+                messageLabel.setVisible(true);
                 messageLabel.setForeground(Color.WHITE);
                 messageLabel.setBackground(Color.RED);
                 messageLabel.setText("User NOT FOUND!!");
