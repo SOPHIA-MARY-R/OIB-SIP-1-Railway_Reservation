@@ -24,10 +24,11 @@ public class Register implements ActionListener{
     JTextField email = new JTextField();
     JLabel userPasswordLabel = new JLabel("Password");
     JPasswordField userPassword = new JPasswordField();
-    JLabel userConfirmPasswordLabel = new JLabel("Password");
+    JLabel userConfirmPasswordLabel = new JLabel("Repeat Password");
     JPasswordField userConfirmPassword = new JPasswordField();
     JButton registerButton = new JButton("Register");
     JButton resetButton = new JButton("Reset");
+    JButton loginButton = new JButton("Login?");
     JLabel messageLabel = new JLabel("test message");
 
     public Register(JFrame jFrame, Credentials credentials){
@@ -38,35 +39,42 @@ public class Register implements ActionListener{
         titleLabel.setFont(new Font(null, Font.BOLD, 40));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        userNameLabel.setBounds(50, 100, 90, 25);
-        userName.setBounds(145, 100, 200, 35);
+        userNameLabel.setBounds(50, 100, 120, 25);
+        userName.setBounds(175, 100, 200, 35);
         userName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));//to remove the border around the textField and add padding
 
-        emailLabel.setBounds(50, 150, 90, 25);
-        email.setBounds(145, 150, 200, 35);
+        emailLabel.setBounds(50, 150, 120, 25);
+        email.setBounds(175, 150, 200, 35);
         email.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        userPasswordLabel.setBounds(50, 200, 90, 25);
-        userPassword.setBounds(145, 200, 200, 35);
+        userPasswordLabel.setBounds(50, 200, 120, 25);
+        userPassword.setBounds(175, 200, 200, 35);
         userPassword.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        userConfirmPasswordLabel.setBounds(50, 250, 90, 25);
-        userConfirmPassword.setBounds(145, 250, 200, 35);
+        userConfirmPasswordLabel.setBounds(50, 250, 120, 25);
+        userConfirmPassword.setBounds(175, 250, 200, 35);
         userConfirmPassword.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        registerButton.setBounds(100, 290, 100, 35);
+        registerButton.setBounds(50, 300, 100, 35);
         registerButton.addActionListener(this);
         registerButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         registerButton.setBackground(new Color(102, 178, 255));
         registerButton.setForeground(Color.WHITE);
         registerButton.setFocusable(false); //removes dotted outline around button text
 
-        resetButton.setBounds(205, 290, 100, 35);
+        resetButton.setBounds(155, 300, 100, 35);
         resetButton.addActionListener(this);
         resetButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         resetButton.setBackground(new Color(255, 102, 178));
         resetButton.setForeground(Color.WHITE);
         resetButton.setFocusable(false); 
+
+        loginButton.setBounds(260, 300, 100, 35);
+        loginButton.addActionListener(this);
+        loginButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        loginButton.setBackground(new Color(204, 153, 255));
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setFocusable(false); 
 
         messageLabel.setBounds(100, 340, 200, 35);
         messageLabel.setVisible(false);
@@ -86,6 +94,7 @@ public class Register implements ActionListener{
         jFrame.add(userConfirmPassword);
         jFrame.add(registerButton);
         jFrame.add(resetButton);
+        jFrame.add(loginButton);
         jFrame.add(messageLabel);
     }
 
@@ -93,7 +102,9 @@ public class Register implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == resetButton){
             userName.setText("");
+            email.setText("");
             userPassword.setText("");
+            userConfirmPassword.setText("");
         }
         else if(e.getSource() == registerButton){
             String user = userName.getText();
@@ -106,7 +117,7 @@ public class Register implements ActionListener{
                 messageLabel.setVisible(true);
                 messageLabel.setForeground(Color.WHITE);
                 messageLabel.setBackground(Color.RED);
-                messageLabel.setText("UserName already EXISTS!! Try again or Login.");
+                messageLabel.setText("User already EXISTS!!");
             }
             else{
                 if(!pwd1.equals(pwd2)){
@@ -128,6 +139,11 @@ public class Register implements ActionListener{
                     new Login(jFrame, credentials);
                 }
             }
+        }
+        else if(e.getSource() == loginButton){
+            jFrame.getContentPane().removeAll();
+            jFrame.repaint();
+            new Login(jFrame, credentials);
         }
     }
 

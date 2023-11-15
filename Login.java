@@ -24,6 +24,7 @@ public class Login implements ActionListener{
     JPasswordField userPassword = new JPasswordField();
     JButton loginButton = new JButton("Login");
     JButton resetButton = new JButton("Reset");
+    JButton registerButton = new JButton("New User?");
     JLabel messageLabel = new JLabel("test message");
 
     public Login(JFrame jFrame, Credentials credentials){
@@ -42,19 +43,26 @@ public class Login implements ActionListener{
         userPassword.setBounds(145, 150, 200, 35);
         userPassword.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        loginButton.setBounds(100, 220, 100, 35);
+        loginButton.setBounds(50, 220, 100, 35);
         loginButton.addActionListener(this);
         loginButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         loginButton.setBackground(new Color(102, 178, 255));
         loginButton.setForeground(Color.WHITE);
         loginButton.setFocusable(false); //removes dotted outline around button text
 
-        resetButton.setBounds(205, 220, 100, 35);
+        resetButton.setBounds(155, 220, 100, 35);
         resetButton.addActionListener(this);
         resetButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         resetButton.setBackground(new Color(255, 102, 178));
         resetButton.setForeground(Color.WHITE);
         resetButton.setFocusable(false); 
+
+        registerButton.setBounds(260, 220, 100, 35);
+        registerButton.addActionListener(this);
+        registerButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        registerButton.setBackground(new Color(204, 153, 255));
+        registerButton.setForeground(Color.WHITE);
+        registerButton.setFocusable(false); 
 
         messageLabel.setBounds(100, 270, 200, 35);
         messageLabel.setVisible(false);
@@ -70,6 +78,7 @@ public class Login implements ActionListener{
         jFrame.add(userPassword);
         jFrame.add(loginButton);
         jFrame.add(resetButton);
+        jFrame.add(registerButton);
         jFrame.add(messageLabel);
     }
 
@@ -111,6 +120,11 @@ public class Login implements ActionListener{
                 messageLabel.setBackground(Color.RED);
                 messageLabel.setText("User NOT FOUND!!");
             }
+        }
+        else if(e.getSource() == registerButton){
+            jFrame.getContentPane().removeAll();
+            jFrame.repaint();
+            new Register(jFrame, credentials);
         }
     }
 
