@@ -104,6 +104,7 @@ public class Login implements ActionListener{
                     //removes all components present in the frame
                     jFrame.getContentPane().removeAll();
                     jFrame.repaint();
+                    new BookTicket(jFrame, user);
 
                     // jFrame.dispose(); //clears the frame
                 }
