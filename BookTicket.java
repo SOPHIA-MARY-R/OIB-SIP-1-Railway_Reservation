@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -14,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-public class BookTicket implements ActionListener, ItemListener {
+public class BookTicket implements ActionListener {
     TrainInfo t = new TrainInfo();
     ArrayList<Train> trainInfo = t.getTrainInfo();
 
@@ -22,15 +21,18 @@ public class BookTicket implements ActionListener, ItemListener {
     JLabel userLabel = new JLabel("Hello user!");
     JLabel titleLabel = new JLabel("RESERVE!");
 
-    String stations[] = { "DINDIGUL JN(DG)", "CHENNAI EGMORE(MS)", "MGR CHENNAI CTL(MAS)" };
+    String stations[] = { "DINDIGUL JN - DG (KODAIKANAL)", "CHENNAI EGMORE - MS (CHENNAI)", "MGR CHENNAI CTL - MAS (CHENNAI)" };
+    String trains[][] = {
+        {"TEJAS EXPRESS", "MS QLN EXPRESS", "PANDIAN SF EXP", "VAIGAI SF EXP", "POTHIGAI SF EXP", "MS GURUVAYUR EXP", "QLN MS EXPRESS", "GUV CHENNAI EXP", "PGT MAS EXPRESS", "MAS PGT EXPRESS", "MAS BDNK SF EXP"},//trains that stop at Dindigul
+        {"TEJAS EXPRESS", "MS QLN EXPRESS", "PANDIAN SF EXP", "VAIGAI SF EXP", "POTHIGAI SF EXP", "MS GURUVAYUR EXP", "QLN MS EXPRESS", "GUV CHENNAI EXP"}, //trains that stop at Egmore
+        {"PGT MAS EXPRESS", "MAS PGT EXPRESS", "MAS BDNK SF EXP"} //trains that stop at Central
+    };
     JLabel sourceLabel = new JLabel("From");
     JComboBox<String> source = new JComboBox<>(stations);
     JLabel destinationLabel = new JLabel("To");
     JComboBox<String> destination = new JComboBox<>(stations);
     JLabel trainNameLabel = new JLabel("TrainName");
-    String trains[] = new String[15];
-    int index = 0;
-    JComboBox<String> trainName = new JComboBox<>(trains);
+    JComboBox<String> trainName = new JComboBox<>();
 
     // JLabel trainNoLabel = new JLabel("TrainNo");
     // String trainNos[] = {"22651", "22652"};
@@ -55,19 +57,16 @@ public class BookTicket implements ActionListener, ItemListener {
 
         sourceLabel.setBounds(10, 60, 35, 30);
         source.setBounds(50, 60, 150, 30);
-        source.addItemListener(this);
         source.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         source.setBackground(Color.WHITE);
         source.setFocusable(false);
 
         destinationLabel.setBounds(210, 60, 20, 30);
         destination.setBounds(240, 60, 150, 30);
-        destination.addItemListener(this);
         destination.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
         trainNameLabel.setBounds(10, 100, 35, 30);
         trainName.setBounds(50, 100, 150, 30);
-        trainName.addItemListener(this);
         trainName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
         for (int i = 0; i < source.getComponentCount(); i++) {
@@ -98,6 +97,20 @@ public class BookTicket implements ActionListener, ItemListener {
             }
         }
 
+        source.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                updateTrainNames();
+            }
+        });
+
+        destination.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                updateTrainNames();
+            }
+        });
+
         jFrame.add(userLabel);
         jFrame.add(titleLabel);
         jFrame.add(sourceLabel);
@@ -112,32 +125,18 @@ public class BookTicket implements ActionListener, ItemListener {
     public void actionPerformed(ActionEvent e) {
     }
 
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        String from="", to="";
-        if(e.getSource() == source){
-            from = String.valueOf(source.getSelectedItem());
-            for(Train train : trainInfo){
-            if(train.src.equals(from)){
-                trains[index++] = train.trainName;
+    private void updateTrainNames(){
+        String selectedSource = (String) source.getSelectedItem();
+        String selectedDestination = (String) destination.getSelectedItem();
+        System.out.println(selectedSource + " " + selectedDestination);
+        trainName.removeAllItems();
+
+        for(Train train : trainInfo){
+            if(train.src.equals(selectedSource) && train.dest.equals(selectedDestination)){
+                trainName.addItem(train.trainName);//first trainName is the JComboBox name and second trainName is one of teh attributes of the train class
             }
         }
-            // trainName.setText(trainNames.get(String.valueOf(trainNo.getSelectedItem())));
-        }
-        if(e.getSource() == destination){
-            to = String.valueOf(destination.getSelectedItem());
-        }
-        System.out.println(from + " " + to);
-        //show trains which are only going from the chosen source to destination
-        // for(Train train : trainInfo){
-        //     if(train.src.equals(from)){
-        //         trains[index++] = train.trainName;
-        //     }
-        // }
-        for(int i=0; i<index; i++){
-            System.out.print(trains[i] + ",");
-        }
-    }
+    }    
 
     // just for debugging purpose
     public static void main(String[] args) {
