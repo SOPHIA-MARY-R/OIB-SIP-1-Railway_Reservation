@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -13,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import com.toedter.calendar.JDateChooser;
+/* JDateChooser Reference:- https://www.youtube.com/watch?v=9u2PgBf2jC4 */
 
 public class BookTicket implements ActionListener {
     TrainInfo t = new TrainInfo();
@@ -31,7 +35,8 @@ public class BookTicket implements ActionListener {
     JComboBox<String> trainName = new JComboBox<>();
     JLabel trainNumberLabel = new JLabel("No");
     JTextField trainNumber = new JTextField();
-
+    JLabel dateChooserLabel = new JLabel("JourneyDate");
+    JDateChooser dateChooser = new JDateChooser();
 
     public BookTicket(JFrame jFrame, String user) {
         this.jFrame = jFrame;
@@ -47,22 +52,28 @@ public class BookTicket implements ActionListener {
         sourceLabel.setBounds(40, 60, 80, 30);
         source.setBounds(120, 60, 250, 30);
         source.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        source.setBackground(Color.WHITE);
-        source.setFocusable(false);
+        source.setBackground(Color.WHITE);      
 
         destinationLabel.setBounds(40, 100, 80, 30);
         destination.setBounds(120, 100, 250, 30);
         destination.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        destination.setBackground(Color.WHITE);
 
         trainNameLabel.setBounds(40, 140, 80, 30);
-        trainName.setBounds(120, 140, 125, 30);
+        trainName.setBounds(120, 140, 150, 30);
         trainName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        trainName.setBackground(Color.WHITE);
 
-        trainNumberLabel.setBounds(260, 140, 40, 30);
-        trainNumber.setBounds(285, 140, 85, 30);
+        trainNumberLabel.setBounds(275, 140, 65, 30);
+        trainNumber.setBounds(300, 140, 70, 30);
         trainNumber.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         trainNumber.setBackground(Color.WHITE);
         trainNumber.setEditable(false);
+
+        dateChooserLabel.setBounds(40, 180, 80, 30);
+        dateChooser.setBounds(120, 180, 250, 30);
+        dateChooser.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        dateChooser.setBackground(Color.WHITE);
 
         for (int i = 0; i < source.getComponentCount(); i++) {
             if (source.getComponent(i) instanceof JComponent) {
@@ -90,6 +101,10 @@ public class BookTicket implements ActionListener {
             if (trainName.getComponent(i) instanceof AbstractButton) {
                 ((AbstractButton) trainName.getComponent(i)).setBorderPainted(false);
             }
+        }
+        for( Component text : dateChooser.getComponents()){
+            ((JComponent)text).setBorder(new EmptyBorder(0, 0, 0, 0));
+            ((JComponent)text).setBackground(Color.WHITE);
         }
 
         source.addItemListener(new ItemListener() {
@@ -123,6 +138,8 @@ public class BookTicket implements ActionListener {
         jFrame.add(trainName);
         jFrame.add(trainNumberLabel);
         jFrame.add(trainNumber);
+        jFrame.add(dateChooserLabel);
+        jFrame.add(dateChooser);
     }
 
     @Override
