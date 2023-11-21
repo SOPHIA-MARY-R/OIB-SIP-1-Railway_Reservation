@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class BookTicket implements ActionListener {
@@ -22,27 +23,15 @@ public class BookTicket implements ActionListener {
     JLabel titleLabel = new JLabel("RESERVE!");
 
     String stations[] = { "DINDIGUL JN - DG (KODAIKANAL)", "CHENNAI EGMORE - MS (CHENNAI)", "MGR CHENNAI CTL - MAS (CHENNAI)" };
-    String trains[][] = {
-        {"TEJAS EXPRESS", "MS QLN EXPRESS", "PANDIAN SF EXP", "VAIGAI SF EXP", "POTHIGAI SF EXP", "MS GURUVAYUR EXP", "QLN MS EXPRESS", "GUV CHENNAI EXP", "PGT MAS EXPRESS", "MAS PGT EXPRESS", "MAS BDNK SF EXP"},//trains that stop at Dindigul
-        {"TEJAS EXPRESS", "MS QLN EXPRESS", "PANDIAN SF EXP", "VAIGAI SF EXP", "POTHIGAI SF EXP", "MS GURUVAYUR EXP", "QLN MS EXPRESS", "GUV CHENNAI EXP"}, //trains that stop at Egmore
-        {"PGT MAS EXPRESS", "MAS PGT EXPRESS", "MAS BDNK SF EXP"} //trains that stop at Central
-    };
     JLabel sourceLabel = new JLabel("From");
     JComboBox<String> source = new JComboBox<>(stations);
     JLabel destinationLabel = new JLabel("To");
     JComboBox<String> destination = new JComboBox<>(stations);
     JLabel trainNameLabel = new JLabel("TrainName");
     JComboBox<String> trainName = new JComboBox<>();
+    JLabel trainNumberLabel = new JLabel("No");
+    JTextField trainNumber = new JTextField();
 
-    // JLabel trainNoLabel = new JLabel("TrainNo");
-    // String trainNos[] = {"22651", "22652"};
-    // JComboBox<String> trainNo = new JComboBox<>(trainNos);
-    // JLabel trainNameLabel = new JLabel("Train Name");
-    // JLabel trainName = new JLabel(" ");
-    // HashMap<String, String> trainNames = new HashMap<>(){{
-    // put("22651", "PGT MAS");
-    // put("22652", "PANDIAN MS");
-    // }};
 
     public BookTicket(JFrame jFrame, String user) {
         this.jFrame = jFrame;
@@ -55,19 +44,25 @@ public class BookTicket implements ActionListener {
         titleLabel.setBounds(100, 30, 200, 25);
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        sourceLabel.setBounds(10, 60, 35, 30);
-        source.setBounds(50, 60, 150, 30);
+        sourceLabel.setBounds(40, 60, 80, 30);
+        source.setBounds(120, 60, 250, 30);
         source.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         source.setBackground(Color.WHITE);
         source.setFocusable(false);
 
-        destinationLabel.setBounds(210, 60, 20, 30);
-        destination.setBounds(240, 60, 150, 30);
+        destinationLabel.setBounds(40, 100, 80, 30);
+        destination.setBounds(120, 100, 250, 30);
         destination.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        trainNameLabel.setBounds(10, 100, 35, 30);
-        trainName.setBounds(50, 100, 150, 30);
+        trainNameLabel.setBounds(40, 140, 80, 30);
+        trainName.setBounds(120, 140, 125, 30);
         trainName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
+        trainNumberLabel.setBounds(260, 140, 40, 30);
+        trainNumber.setBounds(285, 140, 85, 30);
+        trainNumber.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        trainNumber.setBackground(Color.WHITE);
+        trainNumber.setEditable(false);
 
         for (int i = 0; i < source.getComponentCount(); i++) {
             if (source.getComponent(i) instanceof JComponent) {
@@ -111,6 +106,13 @@ public class BookTicket implements ActionListener {
             }
         });
 
+        trainName.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                updateTrainNumber();
+            }
+        });
+
         jFrame.add(userLabel);
         jFrame.add(titleLabel);
         jFrame.add(sourceLabel);
@@ -119,6 +121,8 @@ public class BookTicket implements ActionListener {
         jFrame.add(destination);
         jFrame.add(trainNameLabel);
         jFrame.add(trainName);
+        jFrame.add(trainNumberLabel);
+        jFrame.add(trainNumber);
     }
 
     @Override
@@ -137,6 +141,16 @@ public class BookTicket implements ActionListener {
             }
         }
     }    
+
+    public void updateTrainNumber(){
+        trainNumber.setText("");
+        for(Train train : trainInfo){
+            if(train.trainName.equals(String.valueOf(trainName.getSelectedItem()))){
+                trainNumber.setText(train.trainNo);
+                return;
+            }
+        }
+    }
 
     // just for debugging purpose
     public static void main(String[] args) {
