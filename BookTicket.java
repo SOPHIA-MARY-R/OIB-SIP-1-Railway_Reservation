@@ -37,6 +37,8 @@ public class BookTicket implements ActionListener {
     JTextField trainNumber = new JTextField();
     JLabel dateChooserLabel = new JLabel("JourneyDate");
     JDateChooser dateChooser = new JDateChooser();
+    JLabel timeLabel = new JLabel("JourneyTime");
+    JTextField time = new JTextField();
 
     public BookTicket(JFrame jFrame, String user) {
         this.jFrame = jFrame;
@@ -74,6 +76,12 @@ public class BookTicket implements ActionListener {
         dateChooser.setBounds(120, 180, 250, 30);
         dateChooser.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         dateChooser.setBackground(Color.WHITE);
+
+        timeLabel.setBounds(40, 220, 80, 30);
+        time.setBounds(120, 220, 250, 30);
+        time.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        time.setBackground(Color.WHITE);
+        time.setEditable(false);
 
         for (int i = 0; i < source.getComponentCount(); i++) {
             if (source.getComponent(i) instanceof JComponent) {
@@ -124,7 +132,7 @@ public class BookTicket implements ActionListener {
         trainName.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e){
-                updateTrainNumber();
+                updateTrainNumberAndTime();
             }
         });
 
@@ -140,6 +148,8 @@ public class BookTicket implements ActionListener {
         jFrame.add(trainNumber);
         jFrame.add(dateChooserLabel);
         jFrame.add(dateChooser);
+        jFrame.add(timeLabel);
+        jFrame.add(time);
     }
 
     @Override
@@ -159,11 +169,13 @@ public class BookTicket implements ActionListener {
         }
     }    
 
-    public void updateTrainNumber(){
+    public void updateTrainNumberAndTime(){
         trainNumber.setText("");
+        time.setText("");
         for(Train train : trainInfo){
             if(train.trainName.equals(String.valueOf(trainName.getSelectedItem()))){
                 trainNumber.setText(train.trainNo);
+                time.setText(train.time);
                 return;
             }
         }
