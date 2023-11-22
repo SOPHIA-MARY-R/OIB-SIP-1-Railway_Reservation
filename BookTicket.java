@@ -6,8 +6,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -21,6 +21,7 @@ import com.toedter.calendar.JDateChooser;
 public class BookTicket implements ActionListener {
     TrainInfo t = new TrainInfo();
     ArrayList<Train> trainInfo = t.getTrainInfo();
+    double sleeperFare, sittingFare;
 
     JFrame jFrame;
     JLabel userLabel = new JLabel("Hello user!");
@@ -39,14 +40,19 @@ public class BookTicket implements ActionListener {
     JDateChooser dateChooser = new JDateChooser();
     JLabel timeLabel = new JLabel("JourneyTime");
     JTextField time = new JTextField();
+    JLabel classLabel = new JLabel("Class");
+    String classes[] = {"SLEEPER", "SITTING"};
+    JComboBox<String> seatClass = new JComboBox<>(classes);
+    JButton bookButton = new JButton("Book now");
 
     public BookTicket(JFrame jFrame, String user) {
         this.jFrame = jFrame;
 
         userLabel.setText("Hello, " + user + "!");
-        userLabel.setBounds(290, 10, 100, 25);
+        userLabel.setBounds(250, 10, 120, 25);
         userLabel.setOpaque(true);
         userLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        userLabel.setBackground(Color.WHITE);
 
         titleLabel.setBounds(100, 30, 200, 25);
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -78,18 +84,27 @@ public class BookTicket implements ActionListener {
         dateChooser.setBackground(Color.WHITE);
 
         timeLabel.setBounds(40, 220, 80, 30);
-        time.setBounds(120, 220, 250, 30);
+        time.setBounds(120, 220, 100, 30);
         time.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         time.setBackground(Color.WHITE);
         time.setEditable(false);
+
+        classLabel.setBounds(225, 220, 50, 30);
+        seatClass.setBounds(260, 220, 110, 30);
+        seatClass.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        seatClass.setBackground(Color.WHITE);
+
+        bookButton.setBounds(150, 280, 100, 35);
+        bookButton.addActionListener(this);
+        bookButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        bookButton.setBackground(new Color(255, 102, 178));
+        bookButton.setForeground(Color.WHITE);
+        bookButton.setFocusable(false); 
 
         for (int i = 0; i < source.getComponentCount(); i++) {
             if (source.getComponent(i) instanceof JComponent) {
                 ((JComponent) source.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
                 ((JComponent) source.getComponent(i)).setBackground(Color.WHITE);
-            }
-            if (source.getComponent(i) instanceof AbstractButton) {
-                ((AbstractButton) source.getComponent(i)).setBorderPainted(false);
             }
         }
         for (int i = 0; i < destination.getComponentCount(); i++) {
@@ -97,22 +112,22 @@ public class BookTicket implements ActionListener {
                 ((JComponent) destination.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
                 ((JComponent) destination.getComponent(i)).setBackground(Color.WHITE);
             }
-            if (destination.getComponent(i) instanceof AbstractButton) {
-                ((AbstractButton) destination.getComponent(i)).setBorderPainted(false);
-            }
         }
         for (int i = 0; i < trainName.getComponentCount(); i++) {
             if (trainName.getComponent(i) instanceof JComponent) {
                 ((JComponent) trainName.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
                 ((JComponent) trainName.getComponent(i)).setBackground(Color.WHITE);
             }
-            if (trainName.getComponent(i) instanceof AbstractButton) {
-                ((AbstractButton) trainName.getComponent(i)).setBorderPainted(false);
+        }
+        for (int i = 0; i < seatClass.getComponentCount(); i++) {
+            if (seatClass.getComponent(i) instanceof JComponent) {
+                ((JComponent) seatClass.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
+                ((JComponent) seatClass.getComponent(i)).setBackground(Color.WHITE);
             }
         }
         for( Component text : dateChooser.getComponents()){
-            ((JComponent)text).setBorder(new EmptyBorder(0, 0, 0, 0));
-            ((JComponent)text).setBackground(Color.WHITE);
+            ((JComponent) text).setBorder(new EmptyBorder(0, 0, 0, 0));
+            ((JComponent) text).setBackground(Color.WHITE);
         }
 
         source.addItemListener(new ItemListener() {
@@ -150,10 +165,19 @@ public class BookTicket implements ActionListener {
         jFrame.add(dateChooser);
         jFrame.add(timeLabel);
         jFrame.add(time);
+        jFrame.add(classLabel);
+        jFrame.add(seatClass);
+        jFrame.add(bookButton);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == bookButton){
+            Ticket ticket = new Ticket(String.valueOf(source.getSelectedItem()), String.valueOf(destination.getSelectedItem()), String.valueOf(trainName.getSelectedItem()), String.valueOf(trainNumber.getText()), String.valueOf(time.getText()), sleeperFare, sittingFare, String.valueOf(seatClass.getSelectedItem()), null);
+            jFrame.getContentPane().removeAll();
+            jFrame.repaint();
+            new AddPassenger(ticket, jFrame);
+        }
     }
 
     private void updateTrainNames(){
@@ -176,19 +200,10 @@ public class BookTicket implements ActionListener {
             if(train.trainName.equals(String.valueOf(trainName.getSelectedItem()))){
                 trainNumber.setText(train.trainNo);
                 time.setText(train.time);
+                sleeperFare = train.sleeperFare;
+                sittingFare = train.sittingFare;
                 return;
             }
         }
-    }
-
-    // just for debugging purpose
-    public static void main(String[] args) {
-        JFrame jFrame = new JFrame();
-        jFrame.getContentPane().setBackground(Color.PINK);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.setSize(420, 420);
-        jFrame.setLayout(null);
-        jFrame.setVisible(true);
-        new BookTicket(jFrame, "Sophia");
     }
 }

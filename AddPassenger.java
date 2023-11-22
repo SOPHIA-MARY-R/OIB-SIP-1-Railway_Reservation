@@ -1,0 +1,130 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+public class AddPassenger {
+    JFrame jFrame;
+    Ticket ticket;
+
+    JLabel titleLabel = new JLabel("ADD PASSENGERS");
+    JLabel nameLabel = new JLabel("Name");
+    JTextField name = new JTextField();
+    JLabel genderLabel = new JLabel("Gender");
+    JComboBox<String> gender = new JComboBox<>(new String[]{"Male", "Female", "Other"});
+    JLabel ageLabel = new JLabel("Age");
+    JSpinner age = new JSpinner(new SpinnerNumberModel(18, 1, 120, 1));
+    JButton addButton = new JButton("ADD");
+    //TABLE
+    DefaultTableModel tableModel = new DefaultTableModel();
+    JTable passengerTable = new JTable(tableModel);
+
+    public AddPassenger(Ticket ticket, JFrame jFrame){
+        this.ticket = ticket;
+        this.jFrame = jFrame;
+
+        titleLabel.setBounds(100, 20, 200, 20);
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        nameLabel.setBounds(10, 60, 100, 20);
+        name.setBounds(10, 85, 100, 30);
+        name.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        name.setBackground(Color.WHITE);
+
+        genderLabel.setBounds(120, 60, 100, 20);
+        gender.setBounds(120, 85, 100, 30);
+        gender.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        gender.setBackground(Color.WHITE);
+
+        ageLabel.setBounds(230, 60, 100, 20);
+        age.setBounds(230, 85, 100, 30);
+        age.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        age.setBackground(Color.WHITE);
+
+        addButton.setBounds(340, 85, 60, 30);
+        addButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        addButton.setBackground(new Color(255, 102, 178));
+        addButton.setForeground(Color.WHITE);
+        addButton.setFocusable(false);
+
+        tableModel.addColumn("Name");
+        tableModel.addColumn("Gender");
+        tableModel.addColumn("Age");
+
+        for (int i = 0; i < gender.getComponentCount(); i++) {
+            if (gender.getComponent(i) instanceof JComponent) {
+                ((JComponent) gender.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
+                ((JComponent) gender.getComponent(i)).setBackground(Color.WHITE);
+            }
+        }
+
+        for (int i = 0; i < age.getComponentCount(); i++) {
+            if (age.getComponent(i) instanceof JComponent) {
+                ((JComponent) age.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
+                ((JComponent) age.getComponent(i)).setBackground(Color.WHITE);
+            }
+        }
+
+        addButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addPassenger();
+            }
+        });
+
+        JScrollPane tableScrollPane = new JScrollPane(passengerTable);
+        tableScrollPane.setBounds(25, 150, 350, 200);
+        tableScrollPane.getViewport().setBackground(Color.PINK);
+        tableScrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        passengerTable.getTableHeader().setBackground(new Color(255, 102, 178));
+        passengerTable.getTableHeader().setForeground(Color.WHITE);
+        passengerTable.getTableHeader().setFont(new Font(null, Font.BOLD, 13));
+
+        jFrame.add(titleLabel);
+        jFrame.add(nameLabel);
+        jFrame.add(name);
+        jFrame.add(genderLabel);
+        jFrame.add(gender);
+        jFrame.add(ageLabel);
+        jFrame.add(age);
+        jFrame.add(addButton);
+        jFrame.add(tableScrollPane);
+    }
+
+    private void addPassenger(){
+        String passengerName = name.getText();
+        String passengerGender = (String) gender.getSelectedItem();
+        int passengerAge = (int) age.getValue();
+
+        Object[] rowData = {passengerName, passengerGender, passengerAge};
+        tableModel.addRow(rowData);
+
+        name.setText("");
+        gender.setSelectedIndex(0);
+        age.setValue(18);
+    }
+    public static void main(String[] args) {
+        JFrame jFrame = new JFrame();
+        jFrame.getContentPane().setBackground(Color.PINK);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setSize(420, 420);
+        jFrame.setLayout(null);
+        jFrame.setVisible(true);
+        new AddPassenger(new Ticket("","","","","",0,0,"",null), jFrame);
+    }
+}
