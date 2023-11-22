@@ -22,6 +22,7 @@ public class DisplayTicket {
         System.out.println(ticket.sleeperFare);
         System.out.println(ticket.sittingFare);
         System.out.println(ticket.calculateTotalFare());
+        System.out.println(ticket.generatePNRNumber());
         System.out.println();
     }
 }

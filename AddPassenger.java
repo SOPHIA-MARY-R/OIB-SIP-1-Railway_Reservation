@@ -131,7 +131,7 @@ public class AddPassenger {
         String passengerName = name.getText();
         String passengerGender = (String) gender.getSelectedItem();
         int passengerAge = (int) age.getValue();
-        passengerList.add(new Passenger(passengerName, passengerAge, passengerGender));
+        passengerList.add(new Passenger(passengerName, passengerAge, passengerGender, serialNumber));
 
         Object[] rowData = {serialNumber, passengerName, passengerGender, passengerAge};
         tableModel.addRow(rowData);
