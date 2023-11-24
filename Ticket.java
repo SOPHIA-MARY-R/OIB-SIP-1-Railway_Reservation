@@ -6,9 +6,11 @@ public class Ticket extends Train {
     String seatClass;
     int PNRNumber;
     double totalFare;
-    public Ticket(String src, String dest, String trainName, String trainNo, String time, double sleeperFare,
+    String date;
+    public Ticket(String src, String dest, String trainName, String trainNo, String date, String time, double sleeperFare,
             double sittingFare, String seatClass) {
         super(src, dest, trainName, trainNo, time, sleeperFare, sittingFare);
+        this.date = date;
         this.seatClass = seatClass;
     }
 

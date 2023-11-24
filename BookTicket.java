@@ -173,7 +173,7 @@ public class BookTicket implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == bookButton){
-            Ticket ticket = new Ticket(String.valueOf(source.getSelectedItem()), String.valueOf(destination.getSelectedItem()), String.valueOf(trainName.getSelectedItem()), String.valueOf(trainNumber.getText()), String.valueOf(time.getText()), sleeperFare, sittingFare, String.valueOf(seatClass.getSelectedItem()));
+            Ticket ticket = new Ticket(String.valueOf(source.getSelectedItem()), String.valueOf(destination.getSelectedItem()), String.valueOf(trainName.getSelectedItem()), String.valueOf(trainNumber.getText()), String.valueOf(dateChooser.getDate()), String.valueOf(time.getText()), sleeperFare, sittingFare, String.valueOf(seatClass.getSelectedItem()));
             jFrame.getContentPane().removeAll();
             jFrame.repaint();
             new AddPassenger(ticket, jFrame);
