@@ -1,10 +1,15 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class DisplayTicket {
     Ticket ticket;
@@ -34,17 +39,20 @@ public class DisplayTicket {
     JLabel totalFareLabel = new JLabel("Total Fare (Rs.)");
     JLabel ticketFare = new JLabel();
     JLabel totalFare = new JLabel();
+    JButton cancelButton = new JButton("Cancel Ticket");
 
-    ArrayList<Passenger> passengerList = new ArrayList<>(){{
-        add(new Passenger("RAYAPPAN", 45, "Male", 01));
-        add(new Passenger("SOPHIA", 21, "Female", 02));
-        add(new Passenger("SEBASTIN", 16, "Male", 03));
-    }};
+    // ArrayList<Passenger> passengerList = new ArrayList<>(){{
+    //     add(new Passenger("RAYAPPAN", 45, "Male", 01));
+    //     add(new Passenger("SOPHIA", 21, "Female", 02));
+    //     add(new Passenger("SEBASTIN", 16, "Male", 03));
+    // }};
 
     public DisplayTicket(Ticket ticket, JFrame jFrame){
         this.ticket = ticket;
         this.jFrame = jFrame;
-        ticket.setPassengerList(passengerList);
+        ArrayList<Passenger> passengerList = ticket.getPassengerList();
+        jFrame.setSize(580, 600);
+        jFrame.getContentPane().setBackground(new Color(255, 255, 240));
 
         titleLabel.setBounds(250, 20, 80, 20);
         titleLabel.setFont(new Font(null, Font.BOLD, 18));
@@ -74,8 +82,8 @@ public class DisplayTicket {
         pnr.setForeground(new Color(0, 153, 153));
         pnr.setText(String.valueOf(ticket.generatePNRNumber()));
 
-        trainNoTrainNameLabel.setBounds(200, 150, 150, 30);
-        trainNoTrainName.setBounds(200, 180, 150, 30);
+        trainNoTrainNameLabel.setBounds(200, 150, 200, 30);
+        trainNoTrainName.setBounds(200, 180, 200, 30);
         trainNoTrainName.setText(ticket.trainNo + " / " + ticket.trainName);
         trainNoTrainName.setForeground(new Color(0, 153, 153));
 
@@ -169,22 +177,26 @@ public class DisplayTicket {
         totalFare.setText(String.valueOf(ticket.calculateTotalFare()));
         totalFare.setForeground(new Color(220, 20, 60));
 
-        // System.out.println();
-        // System.out.println(ticket.src);
-        // System.out.println(ticket.dest);
-        // System.out.println(ticket.trainName);
-        // System.out.println(ticket.trainNo);
-        // System.out.println(ticket.time);
-        // System.out.println(ticket.PNRNumber);
-        // System.out.println(ticket.seatClass);
-        // for(Passenger passenger : ticket.getPassengerList()){
-        //     System.out.println(passenger.name + " " + passenger.gender + " " + passenger.age);
-        // }
-        // System.out.println(ticket.sleeperFare);
-        // System.out.println(ticket.sittingFare);
-        // System.out.println(ticket.calculateTotalFare());
-        // System.out.println(ticket.generatePNRNumber());
-        // System.out.println();
+        size += 40;
+        cancelButton.setBounds(200, size, 150, 40);
+        cancelButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        cancelButton.setBackground(new Color(255, 0, 0));
+        cancelButton.setForeground(Color.WHITE);
+        cancelButton.setFocusable(false); 
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                JOptionPane.showInputDialog(
+                    null,
+                    "Enter PNR Number of Ticket",
+                    "Are you sure to cancel the ticket?",
+                    JOptionPane.QUESTION_MESSAGE
+                );
+                new Welcome();
+                jFrame.dispose();
+            }
+        });
 
         jFrame.add(titleLabel);
         jFrame.add(arrivalLabel);
@@ -210,15 +222,6 @@ public class DisplayTicket {
         jFrame.add(ticketFare);
         jFrame.add(totalFareLabel);
         jFrame.add(totalFare);
-    }
-
-    public static void main(String[] args) {
-        JFrame jFrame = new JFrame();
-        jFrame.getContentPane().setBackground(new Color(255, 255, 240));
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.setSize(580, 580);
-        jFrame.setLayout(null);
-        jFrame.setVisible(true);
-        new DisplayTicket(new Ticket("DINDIGUL JN - DG (KODAIKANAL)", "MGR CHENNAI CTL - MAS (CHENNAI)", "PANDIAN SF EXP", "12637", "01-01-2024", "21:40 to 03:52", 295.0, 765.0, "SLEEPER"), jFrame);
+        jFrame.add(cancelButton);
     }
 }

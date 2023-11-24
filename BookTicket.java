@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -173,7 +176,9 @@ public class BookTicket implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == bookButton){
-            Ticket ticket = new Ticket(String.valueOf(source.getSelectedItem()), String.valueOf(destination.getSelectedItem()), String.valueOf(trainName.getSelectedItem()), String.valueOf(trainNumber.getText()), String.valueOf(dateChooser.getDate()), String.valueOf(time.getText()), sleeperFare, sittingFare, String.valueOf(seatClass.getSelectedItem()));
+            SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
+            String date = dcn.format(dateChooser.getDate() );
+            Ticket ticket = new Ticket(String.valueOf(source.getSelectedItem()), String.valueOf(destination.getSelectedItem()), String.valueOf(trainName.getSelectedItem()), String.valueOf(trainNumber.getText()), date.toString(), String.valueOf(time.getText()), sleeperFare, sittingFare, String.valueOf(seatClass.getSelectedItem()));
             jFrame.getContentPane().removeAll();
             jFrame.repaint();
             new AddPassenger(ticket, jFrame);
