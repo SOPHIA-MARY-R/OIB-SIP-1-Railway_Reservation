@@ -2,10 +2,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.sql.Date;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -30,7 +26,7 @@ public class BookTicket implements ActionListener {
     JLabel userLabel = new JLabel("Hello user!");
     JLabel titleLabel = new JLabel("RESERVE!");
 
-    String stations[] = { "DINDIGUL JN - DG (KODAIKANAL)", "CHENNAI EGMORE - MS (CHENNAI)", "MGR CHENNAI CTL - MAS (CHENNAI)" };
+    String[] stations = { "DINDIGUL JN - DG (KODAIKANAL)", "CHENNAI EGMORE - MS (CHENNAI)", "MGR CHENNAI CTL - MAS (CHENNAI)" };
     JLabel sourceLabel = new JLabel("From");
     JComboBox<String> source = new JComboBox<>(stations);
     JLabel destinationLabel = new JLabel("To");
@@ -44,7 +40,7 @@ public class BookTicket implements ActionListener {
     JLabel timeLabel = new JLabel("JourneyTime");
     JTextField time = new JTextField();
     JLabel classLabel = new JLabel("Class");
-    String classes[] = {"SLEEPER", "SITTING"};
+    String[] classes = {"SLEEPER", "SITTING"};
     JComboBox<String> seatClass = new JComboBox<>(classes);
     JButton bookButton = new JButton("Book now");
 
@@ -107,52 +103,37 @@ public class BookTicket implements ActionListener {
         for (int i = 0; i < source.getComponentCount(); i++) {
             if (source.getComponent(i) instanceof JComponent) {
                 ((JComponent) source.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
-                ((JComponent) source.getComponent(i)).setBackground(Color.WHITE);
+                source.getComponent(i).setBackground(Color.WHITE);
             }
         }
         for (int i = 0; i < destination.getComponentCount(); i++) {
             if (destination.getComponent(i) instanceof JComponent) {
                 ((JComponent) destination.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
-                ((JComponent) destination.getComponent(i)).setBackground(Color.WHITE);
+                destination.getComponent(i).setBackground(Color.WHITE);
             }
         }
         for (int i = 0; i < trainName.getComponentCount(); i++) {
             if (trainName.getComponent(i) instanceof JComponent) {
                 ((JComponent) trainName.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
-                ((JComponent) trainName.getComponent(i)).setBackground(Color.WHITE);
+                trainName.getComponent(i).setBackground(Color.WHITE);
             }
         }
         for (int i = 0; i < seatClass.getComponentCount(); i++) {
             if (seatClass.getComponent(i) instanceof JComponent) {
                 ((JComponent) seatClass.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
-                ((JComponent) seatClass.getComponent(i)).setBackground(Color.WHITE);
+                seatClass.getComponent(i).setBackground(Color.WHITE);
             }
         }
         for( Component text : dateChooser.getComponents()){
             ((JComponent) text).setBorder(new EmptyBorder(0, 0, 0, 0));
-            ((JComponent) text).setBackground(Color.WHITE);
+            text.setBackground(Color.WHITE);
         }
 
-        source.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                updateTrainNames();
-            }
-        });
+        source.addItemListener(e -> updateTrainNames());
 
-        destination.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e){
-                updateTrainNames();
-            }
-        });
+        destination.addItemListener(e -> updateTrainNames());
 
-        trainName.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e){
-                updateTrainNumberAndTime();
-            }
-        });
+        trainName.addItemListener(e -> updateTrainNumberAndTime());
 
         jFrame.add(userLabel);
         jFrame.add(titleLabel);
@@ -178,7 +159,7 @@ public class BookTicket implements ActionListener {
         if(e.getSource() == bookButton){
             SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
             String date = dcn.format(dateChooser.getDate() );
-            Ticket ticket = new Ticket(String.valueOf(source.getSelectedItem()), String.valueOf(destination.getSelectedItem()), String.valueOf(trainName.getSelectedItem()), String.valueOf(trainNumber.getText()), date.toString(), String.valueOf(time.getText()), sleeperFare, sittingFare, String.valueOf(seatClass.getSelectedItem()));
+            Ticket ticket = new Ticket(String.valueOf(source.getSelectedItem()), String.valueOf(destination.getSelectedItem()), String.valueOf(trainName.getSelectedItem()), String.valueOf(trainNumber.getText()), date, String.valueOf(time.getText()), sleeperFare, sittingFare, String.valueOf(seatClass.getSelectedItem()));
             jFrame.getContentPane().removeAll();
             jFrame.repaint();
             new AddPassenger(ticket, jFrame);
