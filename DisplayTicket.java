@@ -1,8 +1,5 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -40,12 +37,6 @@ public class DisplayTicket {
     JLabel ticketFare = new JLabel();
     JLabel totalFare = new JLabel();
     JButton cancelButton = new JButton("Cancel Ticket");
-
-    // ArrayList<Passenger> passengerList = new ArrayList<>(){{
-    //     add(new Passenger("RAYAPPAN", 45, "Male", 01));
-    //     add(new Passenger("SOPHIA", 21, "Female", 02));
-    //     add(new Passenger("SEBASTIN", 16, "Male", 03));
-    // }};
 
     public DisplayTicket(Ticket ticket, JFrame jFrame){
         this.ticket = ticket;
@@ -121,7 +112,7 @@ public class DisplayTicket {
         seatNoLabel.setFont(new Font(null, Font.BOLD, 14));
 
         int size = 280;
-        String coach = "";
+        String coach;
         double fare = 0.0;
         for(int index=0; index<passengerList.size(); index++){
             JLabel sNo = new JLabel(String.valueOf((index)+1));
@@ -153,7 +144,7 @@ public class DisplayTicket {
                 fare = ticket.sittingFare;
             }
 
-            JLabel seatNo = new JLabel(coach + " / " + String.valueOf(passengerList.get(index).seatNo));
+            JLabel seatNo = new JLabel(coach + " / " + passengerList.get(index).seatNo);
             seatNo.setBounds(480, size, 100, 30);
             jFrame.add(seatNo);
 
@@ -184,18 +175,15 @@ public class DisplayTicket {
         cancelButton.setForeground(Color.WHITE);
         cancelButton.setFocusable(false); 
 
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                JOptionPane.showInputDialog(
-                    null,
-                    "Enter PNR Number of Ticket",
-                    "Are you sure to cancel the ticket?",
-                    JOptionPane.QUESTION_MESSAGE
-                );
-                new Welcome();
-                jFrame.dispose();
-            }
+        cancelButton.addActionListener(e -> {
+            JOptionPane.showInputDialog(
+                null,
+                "Enter PNR Number of Ticket",
+                "Are you sure to cancel the ticket?",
+                JOptionPane.QUESTION_MESSAGE
+            );
+            new Welcome();
+            jFrame.dispose();
         });
 
         jFrame.add(titleLabel);
