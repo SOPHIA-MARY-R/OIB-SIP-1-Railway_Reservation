@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 public class Credentials {
-    private HashMap<String, String> loginCredentials = new HashMap<>();
+    private final HashMap<String, String> loginCredentials = new HashMap<>();
 
     public HashMap<String, String> getLoginCredentials(){
         return loginCredentials;

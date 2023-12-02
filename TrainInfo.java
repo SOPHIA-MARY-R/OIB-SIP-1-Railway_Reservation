@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class TrainInfo {
-    private ArrayList<Train> trainInfo = new ArrayList<>(){{
+    private final ArrayList<Train> trainInfo = new ArrayList<>(){{
         add(new Train("CHENNAI EGMORE - MS (CHENNAI)", "DINDIGUL JN - DG (KODAIKANAL)", "TEJAS EXPRESS", "22671", "06:00 to 11:03", 0.00, 980.00));
         add(new Train("CHENNAI EGMORE - MS (CHENNAI)", "DINDIGUL JN - DG (KODAIKANAL)", "MS QLN EXPRESS", "16101", "17:00 to 23:02", 265.00, 720.00));
         add(new Train("CHENNAI EGMORE - MS (CHENNAI)", "DINDIGUL JN - DG (KODAIKANAL)", "PANDIAN SF EXP", "12637", "21:40 to 03:52", 295.00, 765.00));

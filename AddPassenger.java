@@ -1,7 +1,5 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -73,32 +71,24 @@ public class AddPassenger {
         for (int i = 0; i < gender.getComponentCount(); i++) {
             if (gender.getComponent(i) instanceof JComponent) {
                 ((JComponent) gender.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
-                ((JComponent) gender.getComponent(i)).setBackground(Color.WHITE);
+                gender.getComponent(i).setBackground(Color.WHITE);
             }
         }
 
         for (int i = 0; i < age.getComponentCount(); i++) {
             if (age.getComponent(i) instanceof JComponent) {
                 ((JComponent) age.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
-                ((JComponent) age.getComponent(i)).setBackground(Color.WHITE);
+                age.getComponent(i).setBackground(Color.WHITE);
             }
         }
 
-        addButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addPassenger();
-            }
-        });
+        addButton.addActionListener(e -> addPassenger());
 
-        bookButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                ticket.setPassengerList(passengerList);
-                jFrame.getContentPane().removeAll();
-                jFrame.repaint();
-                new DisplayTicket(ticket, jFrame);
-            }
+        bookButton.addActionListener(e -> {
+            ticket.setPassengerList(passengerList);
+            jFrame.getContentPane().removeAll();
+            jFrame.repaint();
+            new DisplayTicket(ticket, jFrame);
         });
 
         JScrollPane tableScrollPane = new JScrollPane(passengerTable);

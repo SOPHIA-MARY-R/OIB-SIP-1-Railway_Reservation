@@ -108,7 +108,7 @@ public class Register implements ActionListener{
         }
         else if(e.getSource() == registerButton){
             String user = userName.getText();
-            String pwd1 = String.valueOf(userPassword.getPassword());//cause it's a password
+            String pwd1 = String.valueOf(userPassword.getPassword());//because it's a password
             String pwd2 = String.valueOf(userConfirmPassword.getPassword());
             loginCredentials = credentials.getLoginCredentials();
             System.out.println(user + " " + pwd1 + " " + pwd2);
@@ -130,7 +130,7 @@ public class Register implements ActionListener{
                     messageLabel.setVisible(true);
                     messageLabel.setForeground(Color.WHITE);
                     messageLabel.setBackground(Color.RED);
-                    messageLabel.setText("Registration SUCCESSFULL!!");
+                    messageLabel.setText("Registration SUCCESSFUL!!");
                     credentials.setLoginCredentials(user, pwd1);
                     System.out.println(credentials.getLoginCredentials());
                     //removes all components present in the frame

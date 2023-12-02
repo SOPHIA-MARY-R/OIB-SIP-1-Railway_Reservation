@@ -90,7 +90,7 @@ public class Login implements ActionListener{
         }
         else if(e.getSource() == loginButton){
             String user = userName.getText();
-            String pwd = String.valueOf(userPassword.getPassword());//cause it's a password
+            String pwd = String.valueOf(userPassword.getPassword());//because it's a password
             loginCredentials = credentials.getLoginCredentials();
             System.out.print(loginCredentials);
 
@@ -99,7 +99,7 @@ public class Login implements ActionListener{
                     messageLabel.setVisible(true);
                     messageLabel.setForeground(Color.WHITE);
                     messageLabel.setBackground(new Color(0, 153, 0));
-                    messageLabel.setText("Login SUCCESSFULL!!");
+                    messageLabel.setText("Login SUCCESSFUL!!");
 
                     //removes all components present in the frame
                     jFrame.getContentPane().removeAll();
